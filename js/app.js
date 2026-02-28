@@ -386,10 +386,10 @@ class App {
   _setTeacherModeButton(enabled) {
     const btn = document.getElementById('btn-teacher-mode');
     if (!btn) return;
-    btn.textContent = enabled ? 'Teacher: On' : 'Teacher: Off';
+    btn.textContent = enabled ? 'Focus: On' : 'Focus: Off';
     btn.classList.toggle('btn--primary', enabled);
     btn.setAttribute('aria-pressed', enabled ? 'true' : 'false');
-    btn.title = enabled ? 'Disable teacher mode' : 'Enable teacher mode';
+    btn.title = enabled ? 'Disable focus mode' : 'Enable focus mode';
   }
 
   _loadTeacherMode() {

@@ -134,6 +134,26 @@
   line-height: 1.45;
 }
 
+.lesson-notes {
+  margin-bottom: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 6px 8px;
+}
+
+.lesson-notes > summary {
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.lesson-notes[open] > summary {
+  margin-bottom: 8px;
+}
+
 /* Objectives */
 .objectives {
   margin-bottom: var(--spacing-md);

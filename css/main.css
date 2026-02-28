@@ -221,3 +221,26 @@ body.teacher-mode .level-panel__description {
     grid-column: 1;
   }
 }
+
+/* Strong teacher-mode overrides (kept at end to beat source-order conflicts) */
+body.teacher-mode .main-content,
+#app.teacher-mode .main-content {
+  grid-template-columns: 260px 1fr !important;
+  grid-template-rows: 1fr 200px !important;
+}
+
+body.teacher-mode #lesson-notes,
+body.teacher-mode #command-coach,
+body.teacher-mode #clarity-panel,
+body.teacher-mode #graph-inspector,
+#app.teacher-mode #lesson-notes,
+#app.teacher-mode #command-coach,
+#app.teacher-mode #clarity-panel,
+#app.teacher-mode #graph-inspector {
+  display: none !important;
+}
+
+body.teacher-mode .top-bar,
+#app.teacher-mode .top-bar {
+  border-bottom-color: var(--accent-cyan);
+}

@@ -21,7 +21,7 @@
       <div class="top-bar__info">
         <span class="top-bar__level" id="level-indicator">Lesson 0/22</span>
         <div class="top-bar__actions">
-          <button class="btn" id="btn-teacher-mode" title="Toggle teacher mode">Teacher: Off</button>
+          <button class="btn" id="btn-teacher-mode" title="Toggle focus mode">Focus: Off</button>
           <button class="btn" id="btn-hint" title="Show hint">Hint</button>
           <button class="btn" id="btn-reset-zero" title="Reset to lesson 0">Reset to 0</button>
           <button class="btn" id="btn-reset" title="Reset level">Reset</button>
@@ -40,12 +40,15 @@
           </div>
           <div class="level-panel__content" id="level-content">
             <p class="level-panel__description" id="level-description">Loading...</p>
-            <div class="learning-path" id="learning-path"></div>
-            <div class="teaching-beat" id="teaching-beat"></div>
-            <div class="before-after" id="before-after"></div>
             <div class="objectives" id="objectives-container"></div>
-            <div class="concepts" id="concepts-container"></div>
-            <div class="hints" id="hints-container"></div>
+            <details class="lesson-notes" id="lesson-notes">
+              <summary>Lesson Notes (Optional)</summary>
+              <div class="learning-path" id="learning-path"></div>
+              <div class="teaching-beat" id="teaching-beat"></div>
+              <div class="before-after" id="before-after"></div>
+              <div class="concepts" id="concepts-container"></div>
+              <div class="hints" id="hints-container"></div>
+            </details>
           </div>
         </div>
       </section>
@@ -104,32 +107,30 @@
               <div class="repo-state__files" id="repo-state-head-files">None</div>
             </div>
           </div>
-          <div class="command-coach" id="command-coach">
-            <div class="command-coach__label">Suggested Next Commands</div>
+          <details class="command-coach" id="command-coach">
+            <summary class="command-coach__label">Suggested Next Commands (Optional)</summary>
             <div class="command-coach__chips" id="command-coach-chips"></div>
-          </div>
-          <div class="clarity-panel" id="clarity-panel">
+          </details>
+          <details class="clarity-panel" id="clarity-panel">
+            <summary class="clarity-card__title">Git State Explainer (Optional)</summary>
             <div class="clarity-panel__row">
               <div class="clarity-card">
-                <div class="clarity-card__title">What These Mean</div>
                 <div class="clarity-card__line"><strong>Working Directory</strong>: Your current files you edit.</div>
                 <div class="clarity-card__line"><strong>Staging Area</strong>: What will go into the next commit.</div>
                 <div class="clarity-card__line"><strong>HEAD</strong>: The commit you are currently on.</div>
                 <div class="clarity-card__line"><strong>Branch</strong>: A movable pointer to a commit.</div>
               </div>
               <div class="clarity-card">
-                <div class="clarity-card__title">Live Pointers</div>
                 <div class="clarity-card__line" id="clarity-head-line">HEAD -> (no repo)</div>
                 <div class="clarity-card__line" id="clarity-mode-line">Mode: not initialized</div>
                 <div class="clarity-card__line" id="clarity-branches-line">Branches: none</div>
               </div>
               <div class="clarity-card">
-                <div class="clarity-card__title">Flow + Next Step</div>
                 <div class="clarity-card__line" id="clarity-flow-line">Working Directory -> git add -> Staging Area -> git commit -> History</div>
                 <div class="clarity-card__line" id="clarity-next-line">Next: run git init</div>
               </div>
             </div>
-          </div>
+          </details>
           <div class="terminal__output" id="terminal-output"></div>
           <div class="terminal__input-area">
             <span class="terminal__prompt" id="terminal-prompt">

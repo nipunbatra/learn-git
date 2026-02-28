@@ -95,6 +95,15 @@ body.teacher-mode .terminal__output {
   background: rgba(255, 255, 255, 0.01);
 }
 
+.command-coach > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.command-coach > summary::-webkit-details-marker {
+  display: none;
+}
+
 .command-coach__label {
   color: var(--text-muted);
   font-size: var(--font-size-xs);
@@ -130,10 +139,20 @@ body.teacher-mode .terminal__output {
   background: rgba(255, 255, 255, 0.015);
 }
 
+.clarity-panel > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.clarity-panel > summary::-webkit-details-marker {
+  display: none;
+}
+
 .clarity-panel__row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--spacing-sm);
+  margin-top: 8px;
 }
 
 .clarity-card {
