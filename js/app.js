@@ -34,6 +34,7 @@ class App {
       this._updateRepoState();
       this._updateWorkspaceInspector();
       this._updateClarityPanel();
+      this._updateLessonNav();
       this.levelManager.checkObjectives();
       this.terminal.writeHtml(
         `<span class="term-cyan">Lesson loaded!</span> <span class="term-muted">Read the objectives on the left and start typing commands.</span>`
@@ -57,6 +58,7 @@ class App {
     this._updateRepoState();
     this._updateWorkspaceInspector();
     this._updateClarityPanel();
+    this._updateLessonNav();
     this.levelManager.checkObjectives();
 
     // Welcome message
@@ -90,6 +92,14 @@ class App {
       this.progress.resetProgress();
       this.levelManager.loadLevel(0);
       this.notifications.showToast('Progress reset to Lesson 0', 'info');
+    });
+
+    document.getElementById('btn-prev-lesson').addEventListener('click', () => {
+      this.levelManager.prevLevel();
+    });
+
+    document.getElementById('btn-next-lesson').addEventListener('click', () => {
+      this.levelManager.nextLevel();
     });
 
     // Re-render graph on layout change
@@ -361,6 +371,14 @@ class App {
 
   _escapeHtmlAttr(text) {
     return this._escapeHtml(text).replace(/"/g, '&quot;');
+  }
+
+  _updateLessonNav() {
+    const prevBtn = document.getElementById('btn-prev-lesson');
+    const nextBtn = document.getElementById('btn-next-lesson');
+    if (!prevBtn || !nextBtn) return;
+    prevBtn.disabled = !this.levelManager.canGoPrev();
+    nextBtn.disabled = !this.levelManager.canGoNext();
   }
 
   _toggleTeacherMode() {

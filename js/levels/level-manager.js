@@ -14,6 +14,7 @@ export class LevelManager {
     this.hintIndex = 0;
     this.onLevelChange = null;
     this.onObjectivesUpdate = null;
+    this._completionAnnounced = false;
   }
 
   getTotalLevels() {
@@ -27,6 +28,7 @@ export class LevelManager {
     this.currentLevelIndex = index;
     this.currentLevel = levels[index];
     this.hintIndex = 0;
+    this._completionAnnounced = false;
 
     // Reset engine
     this.engine.reset();
@@ -84,17 +86,32 @@ export class LevelManager {
     }
   }
 
+  prevLevel() {
+    const prevNum = this.currentLevelIndex - 1;
+    if (prevNum >= 0) {
+      this.loadLevel(prevNum);
+    }
+  }
+
+  canGoPrev() {
+    return this.currentLevelIndex > 0;
+  }
+
+  canGoNext() {
+    return this.currentLevelIndex < levels.length - 1;
+  }
+
   _handleLevelComplete() {
     const levelNum = this.currentLevelIndex;
+    if (this._completionAnnounced || this.progress.isLevelComplete(levelNum)) return;
     this.progress.markLevelComplete(levelNum);
+    this._completionAnnounced = true;
 
     if (levelNum >= levels.length - 1) {
-      this.notifications.showGameComplete();
-    } else {
-      this.notifications.showLevelComplete(this.currentLevel.title, () => {
-        this.nextLevel();
-      });
+      this.notifications.showToast('Final lesson complete. Continue experimenting manually.', 'success');
+      return;
     }
+    this.notifications.showToast(`Lesson ${levelNum} complete. Use "Next Lesson" to continue.`, 'success');
   }
 
   _updateLevelPanel() {

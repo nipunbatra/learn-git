@@ -98,6 +98,11 @@ html, body {
   border-color: var(--border-hover);
 }
 
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .btn--primary {
   background: var(--button-primary-bg);
   color: #fff;
