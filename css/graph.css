@@ -1,0 +1,188 @@
+.graph {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.graph__header {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  gap: var(--spacing-md);
+}
+
+.graph__header-title {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.graph__controls {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.graph__btn {
+  padding: 2px 8px;
+  font-size: var(--font-size-xs);
+}
+
+.graph__container {
+  flex: 1;
+  overflow: auto;
+  padding: var(--spacing-md);
+  display: flex;
+  justify-content: center;
+}
+
+.graph-inspector {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-sm);
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  flex-shrink: 0;
+}
+
+.graph-inspector__title {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 2px;
+}
+
+.graph-inspector__list {
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.graph__svg {
+  width: 100%;
+  min-height: 100%;
+}
+
+.graph__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+}
+
+/* Commit nodes */
+.commit-node {
+  cursor: default;
+  transition: transform var(--transition-fast);
+}
+
+.commit-circle {
+  stroke-width: 2;
+  transition: all var(--transition-fast);
+}
+
+.commit-node:hover .commit-circle {
+  stroke-width: 3;
+  filter: brightness(1.2);
+}
+
+.commit-label {
+  fill: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  dominant-baseline: middle;
+}
+
+.commit-message {
+  fill: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  dominant-baseline: middle;
+}
+
+/* Branch/tag labels */
+.branch-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.branch-label rect {
+  rx: 3;
+  ry: 3;
+}
+
+.branch-label text {
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.head-label rect {
+  fill: var(--accent-red);
+}
+
+.head-label text {
+  fill: #fff;
+}
+
+/* Graph edges */
+.graph-edge {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* Animations */
+.commit-node.new-commit {
+  animation: commitPop 0.3s ease-out;
+}
+
+@keyframes commitPop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.graph-edge.new-edge {
+  animation: edgeDraw 0.3s ease-out;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation-fill-mode: forwards;
+}
+
+@keyframes edgeDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Remote section */
+.graph__remote-divider {
+  stroke: var(--border-color);
+  stroke-dasharray: 4 4;
+}
+
+.graph__remote-label {
+  fill: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .graph-inspector {
+    grid-template-columns: 1fr;
+  }
+}

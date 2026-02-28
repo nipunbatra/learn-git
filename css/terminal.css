@@ -1,0 +1,150 @@
+.terminal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  overflow: hidden;
+}
+
+.repo-state {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.repo-state__card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 6px 10px;
+  min-width: 0;
+}
+
+.repo-state__label {
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  line-height: 1.3;
+}
+
+.repo-state__value {
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.command-coach {
+  border-bottom: 1px solid var(--border-color);
+  padding: 6px var(--spacing-md) 8px;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.command-coach__label {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.command-coach__chips {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.command-chip {
+  border: 1px solid var(--border-color);
+  background: var(--bg-tertiary);
+  color: var(--accent-cyan);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+}
+
+.command-chip:hover {
+  border-color: var(--accent-cyan);
+}
+
+.terminal__output {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-sm) var(--spacing-md);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.terminal__output .line {
+  min-height: 1.6em;
+}
+
+.terminal__input-area {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-md) var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.terminal__prompt {
+  color: var(--terminal-prompt);
+  margin-right: 0;
+  white-space: nowrap;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.terminal__prompt .path {
+  color: var(--terminal-path);
+}
+
+.terminal__prompt .branch {
+  color: var(--accent-purple);
+}
+
+.terminal__input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--terminal-text);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  caret-color: var(--terminal-cursor);
+  padding: 0 0 0 var(--spacing-xs);
+  line-height: 1.6;
+}
+
+.terminal__input::selection {
+  background: var(--terminal-selection);
+}
+
+/* Output text colors */
+.term-green { color: var(--accent-green); }
+.term-red { color: var(--accent-red); }
+.term-yellow { color: var(--accent-yellow); }
+.term-blue { color: var(--accent-blue); }
+.term-purple { color: var(--accent-purple); }
+.term-orange { color: var(--accent-orange); }
+.term-cyan { color: var(--accent-cyan); }
+.term-muted { color: var(--text-muted); }
+.term-bold { font-weight: 700; }
+.term-dim { opacity: 0.6; }
+
+/* Separator between output blocks */
+.terminal__output .cmd-echo {
+  color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+  .repo-state {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitQuest — Learn Git Interactively</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/terminal.css">
+  <link rel="stylesheet" href="css/graph.css">
+  <link rel="stylesheet" href="css/level.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+</head>
+<body>
+  <div id="app">
+    <!-- Top bar -->
+    <header class="top-bar">
+      <div class="top-bar__brand">
+        GitQuest <span>— Learn Git by Doing</span>
+      </div>
+      <div class="top-bar__info">
+        <span class="top-bar__level" id="level-indicator">Level 1/22</span>
+        <div class="top-bar__actions">
+          <button class="btn" id="btn-hint" title="Show hint">Hint</button>
+          <button class="btn" id="btn-reset" title="Reset level">Reset</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main 3-panel layout -->
+    <main class="main-content">
+      <!-- Level info panel -->
+      <section class="panel panel--level" id="level-panel">
+        <div class="level-panel">
+          <div class="level-panel__header">
+            <div class="level-panel__world" id="level-world">World 1: Basics</div>
+            <h2 class="level-panel__title" id="level-title">Welcome to GitQuest</h2>
+          </div>
+          <div class="level-panel__content" id="level-content">
+            <p class="level-panel__description" id="level-description">Loading...</p>
+            <div class="learning-path" id="learning-path"></div>
+            <div class="teaching-beat" id="teaching-beat"></div>
+            <div class="objectives" id="objectives-container"></div>
+            <div class="concepts" id="concepts-container"></div>
+            <div class="hints" id="hints-container"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Graph panel -->
+      <section class="panel panel--graph" id="graph-panel">
+        <div class="graph">
+          <div class="graph__header">
+            <span class="graph__header-title">Commit Graph</span>
+            <div class="graph__controls">
+              <button class="btn graph__btn" id="graph-prev" title="Previous graph state">Prev</button>
+              <button class="btn graph__btn" id="graph-next" title="Next graph state">Next</button>
+              <button class="btn graph__btn" id="graph-live" title="Return to live state">Live</button>
+              <span id="graph-branch-info" style="font-family: var(--font-mono);"></span>
+            </div>
+          </div>
+          <div class="graph__container" id="graph-container">
+            <div class="graph__empty" id="graph-empty">
+              No commits yet — make your first commit to see the graph
+            </div>
+          </div>
+          <div class="graph-inspector" id="graph-inspector">
+            <div class="graph-inspector__col">
+              <div class="graph-inspector__title">Staged</div>
+              <div class="graph-inspector__list" id="inspector-staged">None</div>
+            </div>
+            <div class="graph-inspector__col">
+              <div class="graph-inspector__title">Unstaged</div>
+              <div class="graph-inspector__list" id="inspector-unstaged">None</div>
+            </div>
+            <div class="graph-inspector__col">
+              <div class="graph-inspector__title">Untracked</div>
+              <div class="graph-inspector__list" id="inspector-untracked">None</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Terminal panel -->
+      <section class="panel panel--terminal" id="terminal-panel">
+        <div class="terminal" id="terminal">
+          <div class="repo-state" id="repo-state">
+            <div class="repo-state__card">
+              <div class="repo-state__label">Working Directory</div>
+              <div class="repo-state__value" id="repo-state-working">0 files</div>
+            </div>
+            <div class="repo-state__card">
+              <div class="repo-state__label">Staging Area</div>
+              <div class="repo-state__value" id="repo-state-staging">0 files</div>
+            </div>
+            <div class="repo-state__card">
+              <div class="repo-state__label">HEAD</div>
+              <div class="repo-state__value" id="repo-state-head">No commits</div>
+            </div>
+          </div>
+          <div class="command-coach" id="command-coach">
+            <div class="command-coach__label">Suggested Next Commands</div>
+            <div class="command-coach__chips" id="command-coach-chips"></div>
+          </div>
+          <div class="terminal__output" id="terminal-output"></div>
+          <div class="terminal__input-area">
+            <span class="terminal__prompt" id="terminal-prompt">
+              <span class="path">~/project</span> <span class="branch">(no repo)</span> $&nbsp;
+            </span>
+            <input
+              type="text"
+              class="terminal__input"
+              id="terminal-input"
+              autofocus
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+              placeholder="Type a git command..."
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+  <script nomodule>
+    document.getElementById('terminal-output').innerHTML =
+      '<div style="color:#f85149;padding:8px">Error: ES modules require a web server. ' +
+      'Run: <span style="color:#58a6ff">python3 -m http.server 8080</span> ' +
+      'then open <span style="color:#58a6ff">http://localhost:8080</span></div>';
+  </script>
+  <script>
+    // Catch module load failures (e.g., file:// protocol)
+    window.addEventListener('error', function(e) {
+      if (e.message && e.message.includes('import')) {
+        document.getElementById('terminal-output').innerHTML =
+          '<div style="color:#f85149;padding:8px">Module loading failed. ' +
+          'Please use a local server:<br>' +
+          '<span style="color:#58a6ff">python3 -m http.server 8080</span><br>' +
+          'Then open <span style="color:#58a6ff">http://localhost:8080</span></div>';
+      }
+    });
+  </script>
+</body>
+</html>
