@@ -30,6 +30,7 @@ class App {
       this._updateGraph();
       this._updateRepoState();
       this._updateWorkspaceInspector();
+      this._updateClarityPanel();
       this.levelManager.checkObjectives();
       this.terminal.writeHtml(
         `<span class="term-cyan">Level loaded!</span> <span class="term-muted">Read the objectives on the left and start typing commands.</span>`
@@ -51,6 +52,7 @@ class App {
     this._updateGraph();
     this._updateRepoState();
     this._updateWorkspaceInspector();
+    this._updateClarityPanel();
     this.levelManager.checkObjectives();
 
     // Welcome message
@@ -112,6 +114,7 @@ class App {
     this._updateGraph();
     this._updateRepoState();
     this._updateWorkspaceInspector();
+    this._updateClarityPanel();
 
     // Update terminal prompt (branch may have changed)
     this.terminal.updatePrompt();
@@ -190,6 +193,62 @@ class App {
     stagedEl.textContent = this._formatFileList(summary.staged);
     unstagedEl.textContent = this._formatFileList(summary.unstaged);
     untrackedEl.textContent = this._formatFileList(summary.untracked);
+  }
+
+  _updateClarityPanel() {
+    const headLine = document.getElementById('clarity-head-line');
+    const modeLine = document.getElementById('clarity-mode-line');
+    const branchesLine = document.getElementById('clarity-branches-line');
+    const flowLine = document.getElementById('clarity-flow-line');
+    const nextLine = document.getElementById('clarity-next-line');
+    if (!headLine || !modeLine || !branchesLine || !flowLine || !nextLine) return;
+
+    if (!this.engine.initialized) {
+      headLine.textContent = 'HEAD -> (no repo)';
+      modeLine.textContent = 'Mode: not initialized';
+      branchesLine.textContent = 'Branches: none';
+      flowLine.textContent = 'Working Directory -> git add -> Staging Area -> git commit -> History';
+      nextLine.textContent = 'Next: run git init';
+      return;
+    }
+
+    const branch = this.engine.branchManager.currentBranch();
+    const headCommit = this.engine.branchManager.headCommitId();
+    const mode = branch ? 'attached to branch' : 'detached HEAD';
+    headLine.textContent = headCommit
+      ? `HEAD -> ${branch || 'detached'} @ ${headCommit}`
+      : `HEAD -> ${branch || 'detached'} (no commits yet)`;
+    modeLine.textContent = `Mode: ${mode}`;
+
+    const branchPointers = this.engine.branchManager
+      .listBranches()
+      .map((b) => `${b.name}:${b.commitId || 'none'}`);
+    branchesLine.textContent = branchPointers.length > 0
+      ? `Branches: ${branchPointers.join(' | ')}`
+      : 'Branches: none';
+
+    flowLine.textContent = 'Working Directory -> git add -> Staging Area -> git commit -> History';
+
+    const summary = this.engine.getWorkspaceSummary();
+    nextLine.textContent = `Next: ${this._suggestNextStep(summary)}`;
+  }
+
+  _suggestNextStep(summary) {
+    if (summary.untracked.length > 0) {
+      const first = summary.untracked[0];
+      return `stage untracked file: git add ${first}`;
+    }
+    if (summary.unstaged.length > 0) {
+      const first = summary.unstaged[0];
+      return `stage modified file: git add ${first}`;
+    }
+    if (summary.staged.length > 0) {
+      return 'commit staged changes: git commit -m "message"';
+    }
+    if (!summary.headCommitId) {
+      return 'create a file, then git add + git commit';
+    }
+    return 'working tree clean. Try git log or create a branch';
   }
 
   _formatFileList(items) {

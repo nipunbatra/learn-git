@@ -109,6 +109,44 @@
   border-color: var(--accent-cyan);
 }
 
+.clarity-panel {
+  border-bottom: 1px solid var(--border-color);
+  padding: 8px var(--spacing-md);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.clarity-panel__row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.clarity-card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 8px 10px;
+}
+
+.clarity-card__title {
+  color: var(--accent-cyan);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 4px;
+}
+
+.clarity-card__line {
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.clarity-card__line strong {
+  color: var(--text-primary);
+}
+
 .terminal__output {
   flex: 1;
   overflow-y: auto;
@@ -181,6 +219,10 @@
 
 @media (max-width: 768px) {
   .repo-state {
+    grid-template-columns: 1fr;
+  }
+
+  .clarity-panel__row {
     grid-template-columns: 1fr;
   }
 }

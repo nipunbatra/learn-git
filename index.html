@@ -105,6 +105,28 @@
             <div class="command-coach__label">Suggested Next Commands</div>
             <div class="command-coach__chips" id="command-coach-chips"></div>
           </div>
+          <div class="clarity-panel" id="clarity-panel">
+            <div class="clarity-panel__row">
+              <div class="clarity-card">
+                <div class="clarity-card__title">What These Mean</div>
+                <div class="clarity-card__line"><strong>Working Directory</strong>: Your current files you edit.</div>
+                <div class="clarity-card__line"><strong>Staging Area</strong>: What will go into the next commit.</div>
+                <div class="clarity-card__line"><strong>HEAD</strong>: The commit you are currently on.</div>
+                <div class="clarity-card__line"><strong>Branch</strong>: A movable pointer to a commit.</div>
+              </div>
+              <div class="clarity-card">
+                <div class="clarity-card__title">Live Pointers</div>
+                <div class="clarity-card__line" id="clarity-head-line">HEAD -> (no repo)</div>
+                <div class="clarity-card__line" id="clarity-mode-line">Mode: not initialized</div>
+                <div class="clarity-card__line" id="clarity-branches-line">Branches: none</div>
+              </div>
+              <div class="clarity-card">
+                <div class="clarity-card__title">Flow + Next Step</div>
+                <div class="clarity-card__line" id="clarity-flow-line">Working Directory -> git add -> Staging Area -> git commit -> History</div>
+                <div class="clarity-card__line" id="clarity-next-line">Next: run git init</div>
+              </div>
+            </div>
+          </div>
           <div class="terminal__output" id="terminal-output"></div>
           <div class="terminal__input-area">
             <span class="terminal__prompt" id="terminal-prompt">
