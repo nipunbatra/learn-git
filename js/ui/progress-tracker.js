@@ -8,7 +8,7 @@ export class ProgressTracker {
   }
 
   getCurrentLevel() {
-    return this.data.currentLevel || 1;
+    return Number.isInteger(this.data.currentLevel) ? this.data.currentLevel : 0;
   }
 
   setCurrentLevel(level) {
@@ -33,16 +33,16 @@ export class ProgressTracker {
   }
 
   resetProgress() {
-    this.data = { currentLevel: 1, completed: [] };
+    this.data = { currentLevel: 0, completed: [] };
     this._save();
   }
 
   _load() {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? JSON.parse(stored) : { currentLevel: 1, completed: [] };
+      return stored ? JSON.parse(stored) : { currentLevel: 0, completed: [] };
     } catch {
-      return { currentLevel: 1, completed: [] };
+      return { currentLevel: 0, completed: [] };
     }
   }
 

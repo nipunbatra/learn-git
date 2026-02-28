@@ -105,6 +105,35 @@
   line-height: 1.45;
 }
 
+.before-after {
+  margin-bottom: var(--spacing-md);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.before-after__card {
+  background: rgba(88, 166, 255, 0.07);
+  border: 1px solid rgba(88, 166, 255, 0.35);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+}
+
+.before-after__title {
+  color: var(--accent-blue);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.before-after__line {
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  line-height: 1.45;
+}
+
 /* Objectives */
 .objectives {
   margin-bottom: var(--spacing-md);

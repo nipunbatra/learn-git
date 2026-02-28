@@ -33,7 +33,7 @@ class App {
       this._updateClarityPanel();
       this.levelManager.checkObjectives();
       this.terminal.writeHtml(
-        `<span class="term-cyan">Level loaded!</span> <span class="term-muted">Read the objectives on the left and start typing commands.</span>`
+        `<span class="term-cyan">Lesson loaded!</span> <span class="term-muted">Read the objectives on the left and start typing commands.</span>`
       );
       this.terminal.focus();
     };
@@ -72,9 +72,16 @@ class App {
 
     // Reset button
     document.getElementById('btn-reset').addEventListener('click', () => {
-      const levelNum = this.levelManager.currentLevelIndex + 1;
-      this.levelManager.loadLevel(levelNum);
-      this.notifications.showToast('Level reset!', 'info');
+      const lessonNum = this.levelManager.currentLevelIndex;
+      this.levelManager.loadLevel(lessonNum);
+      this.notifications.showToast(`Lesson ${lessonNum} reset!`, 'info');
+    });
+
+    // Reset to lesson 0
+    document.getElementById('btn-reset-zero').addEventListener('click', () => {
+      this.progress.resetProgress();
+      this.levelManager.loadLevel(0);
+      this.notifications.showToast('Progress reset to Lesson 0', 'info');
     });
 
     // Re-render graph on layout change

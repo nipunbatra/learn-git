@@ -3,6 +3,32 @@
 
 export const levels = [
 
+  // Lesson 0: onboarding
+  {
+    title: 'Orientation: The Git Map',
+    world: 'Onboarding',
+    description: 'This is Lesson 0. Understand the simulator layout, the four Git zones, and how commands move information through Git.',
+    beforeLesson: 'You are starting fresh. No Git knowledge is assumed.',
+    afterLesson: 'You will be able to explain HEAD, branch pointer, working directory, staging area, and commit history in one flow.',
+    objectives: [
+      {
+        text: 'Run git init to create your first repo context',
+        check: (state) => state.initialized,
+      },
+    ],
+    hints: [
+      'Type <code>help</code> once to review available commands.',
+      'Then run <code>git init</code> to complete Lesson 0.',
+      'Watch the clarity panel and repo-state cards as you run commands in later lessons.',
+    ],
+    concepts: [
+      'Think in 4 zones: <strong>Working Directory</strong> (edited files), <strong>Staging Area</strong> (next snapshot), <strong>HEAD</strong> (current commit), and <strong>Branch</strong> (pointer to commit).',
+      'Core loop: edit file -> <code>git add</code> -> <code>git commit</code> -> history advances.',
+      'Use this simulator like a lab: predict first, run command, then read state changes.',
+    ],
+    setup: () => {},
+  },
+
   // ══════════════════════════════════════
   // WORLD 1: BASICS (Levels 1-6)
   // ══════════════════════════════════════

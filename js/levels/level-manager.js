@@ -17,11 +17,11 @@ export class LevelManager {
   }
 
   getTotalLevels() {
-    return levels.length;
+    return Math.max(0, levels.length - 1);
   }
 
   loadLevel(levelNumber) {
-    const index = levelNumber - 1;
+    const index = levelNumber;
     if (index < 0 || index >= levels.length) return;
 
     this.currentLevelIndex = index;
@@ -78,17 +78,17 @@ export class LevelManager {
   }
 
   nextLevel() {
-    const nextNum = this.currentLevelIndex + 2; // +1 for 0-index, +1 for next
-    if (nextNum <= levels.length) {
+    const nextNum = this.currentLevelIndex + 1;
+    if (nextNum < levels.length) {
       this.loadLevel(nextNum);
     }
   }
 
   _handleLevelComplete() {
-    const levelNum = this.currentLevelIndex + 1;
+    const levelNum = this.currentLevelIndex;
     this.progress.markLevelComplete(levelNum);
 
-    if (levelNum >= levels.length) {
+    if (levelNum >= levels.length - 1) {
       this.notifications.showGameComplete();
     } else {
       this.notifications.showLevelComplete(this.currentLevel.title, () => {
@@ -99,18 +99,19 @@ export class LevelManager {
 
   _updateLevelPanel() {
     const level = this.currentLevel;
-    const levelNum = this.currentLevelIndex + 1;
+    const lessonNum = this.currentLevelIndex;
 
     // World
     document.getElementById('level-world').textContent = level.world;
     // Title
-    document.getElementById('level-title').textContent = `Level ${levelNum}: ${level.title}`;
+    document.getElementById('level-title').textContent = `Lesson ${lessonNum}: ${level.title}`;
     // Description
     document.getElementById('level-description').textContent = level.description;
     // Level indicator
-    document.getElementById('level-indicator').textContent = `Level ${levelNum}/${levels.length}`;
-    this._updateLearningPath(levelNum);
-    this._updateTeachingBeat(levelNum, level.world);
+    document.getElementById('level-indicator').textContent = `Lesson ${lessonNum}/${levels.length - 1}`;
+    this._updateLearningPath(lessonNum);
+    this._updateTeachingBeat(lessonNum, level.world);
+    this._updateBeforeAfter(lessonNum, level);
 
     // Objectives
     const objContainer = document.getElementById('objectives-container');
@@ -171,13 +172,13 @@ export class LevelManager {
     const el = document.getElementById('learning-path');
     if (!el) return;
 
-    const prev = levels[levelNum - 2];
-    const current = levels[levelNum - 1];
-    const next = levels[levelNum];
+    const prev = levels[levelNum - 1];
+    const current = levels[levelNum];
+    const next = levels[levelNum + 1];
 
-    const prevText = prev ? `Level ${levelNum - 1}: ${prev.title}` : 'Start';
-    const currentText = current ? `Level ${levelNum}: ${current.title}` : '';
-    const nextText = next ? `Level ${levelNum + 1}: ${next.title}` : 'Sandbox complete';
+    const prevText = prev ? `Lesson ${levelNum - 1}: ${prev.title}` : 'Start';
+    const currentText = current ? `Lesson ${levelNum}: ${current.title}` : '';
+    const nextText = next ? `Lesson ${levelNum + 1}: ${next.title}` : 'Sandbox complete';
 
     el.innerHTML = `
       <div class="learning-path__title">Learning Path</div>
@@ -258,9 +259,35 @@ export class LevelManager {
     };
 
     el.innerHTML = `
-      <div class="teaching-beat__title">Teaching Beat (Level ${levelNum})</div>
+      <div class="teaching-beat__title">Teaching Beat (Lesson ${levelNum})</div>
       <div class="teaching-beat__line">${worldBeat.beat}</div>
       <div class="teaching-beat__line" style="margin-top:4px;">${worldBeat.ask}</div>
+    `;
+  }
+
+  _updateBeforeAfter(lessonNum, level) {
+    const el = document.getElementById('before-after');
+    if (!el) return;
+
+    const fallbackBefore = lessonNum === 0
+      ? 'You are new to this simulator and need to orient yourself.'
+      : `Before this lesson, you have completed Lessons 0-${Math.max(0, lessonNum - 1)} and know the prior commands.`;
+    const fallbackAfter = level.objectives && level.objectives.length > 0
+      ? `After this lesson, you should be able to: ${level.objectives.map((o) => o.text).join('; ')}.`
+      : 'After this lesson, you should be able to explain the core Git workflow.';
+
+    const beforeText = level.beforeLesson || fallbackBefore;
+    const afterText = level.afterLesson || fallbackAfter;
+
+    el.innerHTML = `
+      <div class="before-after__card">
+        <div class="before-after__title">Before This Lesson</div>
+        <div class="before-after__line">${beforeText}</div>
+      </div>
+      <div class="before-after__card">
+        <div class="before-after__title">After This Lesson</div>
+        <div class="before-after__line">${afterText}</div>
+      </div>
     `;
   }
 }
