@@ -102,6 +102,27 @@ html, body {
   border-color: var(--button-primary-hover);
 }
 
+/* Teacher mode: simplify UI for live teaching focus */
+body.teacher-mode .main-content {
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: 1fr 220px;
+}
+
+body.teacher-mode #learning-path,
+body.teacher-mode #teaching-beat,
+body.teacher-mode #before-after,
+body.teacher-mode #concepts-container,
+body.teacher-mode #hints-container,
+body.teacher-mode #command-coach,
+body.teacher-mode #clarity-panel,
+body.teacher-mode #graph-inspector {
+  display: none !important;
+}
+
+body.teacher-mode .level-panel__description {
+  margin-bottom: var(--spacing-sm);
+}
+
 /* Main content area */
 .main-content {
   display: grid;

@@ -8,6 +8,8 @@ import { NotificationManager } from './ui/notification.js';
 import { ProgressTracker } from './ui/progress-tracker.js';
 import { LayoutManager } from './ui/layout-manager.js';
 
+const TEACHER_MODE_KEY = 'gitquest_teacher_mode';
+
 class App {
   constructor() {
     this.engine = new GitEngine();
@@ -17,6 +19,7 @@ class App {
     this.graph = new GraphAnimator('graph-container');
     this.graphTimeline = [];
     this.graphTimelineIndex = -1;
+    this.teacherMode = this._loadTeacherMode();
     this.levelManager = new LevelManager(this.engine, this.notifications, this.progress);
 
     this.terminal = new TerminalUI(this.engine, (input, parsed, result) => {
@@ -42,6 +45,7 @@ class App {
     };
 
     this._bindUI();
+    this._applyTeacherMode(this.teacherMode);
     this.layout.init();
 
     // Load saved level or start at 1
@@ -65,6 +69,10 @@ class App {
   }
 
   _bindUI() {
+    document.getElementById('btn-teacher-mode').addEventListener('click', () => {
+      this._toggleTeacherMode();
+    });
+
     // Hint button in top bar
     document.getElementById('btn-hint').addEventListener('click', () => {
       this.levelManager.nextHint();
@@ -113,6 +121,14 @@ class App {
       if (!chip) return;
       const cmd = chip.dataset.command || '';
       this.terminal.setInput(cmd);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() !== 't' || e.metaKey || e.ctrlKey || e.altKey) return;
+      const target = e.target;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) return;
+      e.preventDefault();
+      this._toggleTeacherMode();
     });
   }
 
@@ -345,6 +361,45 @@ class App {
 
   _escapeHtmlAttr(text) {
     return this._escapeHtml(text).replace(/"/g, '&quot;');
+  }
+
+  _toggleTeacherMode() {
+    this.teacherMode = !this.teacherMode;
+    this._applyTeacherMode(this.teacherMode);
+    this.notifications.showToast(
+      this.teacherMode ? 'Teacher mode enabled' : 'Teacher mode disabled',
+      'info'
+    );
+  }
+
+  _applyTeacherMode(enabled) {
+    document.body.classList.toggle('teacher-mode', enabled);
+    this._setTeacherModeButton(enabled);
+    this._saveTeacherMode(enabled);
+    window.dispatchEvent(new Event('layout-change'));
+  }
+
+  _setTeacherModeButton(enabled) {
+    const btn = document.getElementById('btn-teacher-mode');
+    if (!btn) return;
+    btn.textContent = enabled ? 'Teacher: On' : 'Teacher: Off';
+    btn.classList.toggle('btn--primary', enabled);
+  }
+
+  _loadTeacherMode() {
+    try {
+      return localStorage.getItem(TEACHER_MODE_KEY) === '1';
+    } catch {
+      return false;
+    }
+  }
+
+  _saveTeacherMode(enabled) {
+    try {
+      localStorage.setItem(TEACHER_MODE_KEY, enabled ? '1' : '0');
+    } catch {
+      // ignore storage failures
+    }
   }
 }
 

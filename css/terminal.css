@@ -74,6 +74,14 @@
   color: var(--accent-blue);
 }
 
+body.teacher-mode .repo-state {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+body.teacher-mode .repo-state__files {
+  display: none;
+}
+
 .command-coach {
   border-bottom: 1px solid var(--border-color);
   padding: 6px var(--spacing-md) 8px;
