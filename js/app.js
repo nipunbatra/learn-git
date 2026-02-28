@@ -151,23 +151,33 @@ class App {
     const wdEl = document.getElementById('repo-state-working');
     const stageEl = document.getElementById('repo-state-staging');
     const headEl = document.getElementById('repo-state-head');
-    if (!wdEl || !stageEl || !headEl) return;
+    const wdFilesEl = document.getElementById('repo-state-working-files');
+    const stageFilesEl = document.getElementById('repo-state-staging-files');
+    const headFilesEl = document.getElementById('repo-state-head-files');
+    if (!wdEl || !stageEl || !headEl || !wdFilesEl || !stageFilesEl || !headFilesEl) return;
 
     const summary = this.engine.getWorkspaceSummary();
-    const workingCount = this.engine.workingDirectory.listFiles().length;
-    const stagingCount = summary.staged.length;
+    const workingFiles = this.engine.workingDirectory.listFiles();
+    const stagingFiles = summary.staged;
+    const workingCount = workingFiles.length;
+    const stagingCount = stagingFiles.length;
     const branch = summary.branch;
     const headCommit = summary.headCommitId;
 
     wdEl.textContent = `${workingCount} file${workingCount === 1 ? '' : 's'}`;
     stageEl.textContent = `${stagingCount} file${stagingCount === 1 ? '' : 's'}`;
+    wdFilesEl.innerHTML = this._renderFileTags(workingFiles, 'repo-file-tag');
+    stageFilesEl.innerHTML = this._renderFileTags(stagingFiles, 'repo-file-tag repo-file-tag--staged');
 
     if (!headCommit) {
       headEl.textContent = this.engine.initialized ? 'No commits yet' : 'No repo';
+      headFilesEl.innerHTML = this._renderFileTags([], 'repo-file-tag repo-file-tag--head');
       return;
     }
 
     headEl.textContent = branch ? `${branch} @ ${headCommit}` : `detached @ ${headCommit}`;
+    const committedFiles = [...this.engine.mergeEngine.getFilesAtCommit(headCommit).keys()].sort();
+    headFilesEl.innerHTML = this._renderFileTags(committedFiles, 'repo-file-tag repo-file-tag--head');
   }
 
   _updateWorkspaceInspector() {
@@ -187,6 +197,22 @@ class App {
     const preview = items.slice(0, 3).join(', ');
     if (items.length > 3) return `${preview} +${items.length - 3} more`;
     return preview;
+  }
+
+  _renderFileTags(files, className) {
+    if (!files || files.length === 0) {
+      return `<span class="repo-file-tag repo-file-tag--muted">None</span>`;
+    }
+    const limited = files.slice(0, 6);
+    const tags = limited.map((f) =>
+      `<span class="${className}" title="${this._escapeHtmlAttr(f)}">${this._escapeHtml(f)}</span>`
+    );
+    if (files.length > limited.length) {
+      tags.push(
+        `<span class="repo-file-tag repo-file-tag--muted">+${files.length - limited.length} more</span>`
+      );
+    }
+    return tags.join('');
   }
 
   _updateCommandCoach(results) {

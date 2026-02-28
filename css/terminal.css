@@ -33,9 +33,45 @@
 .repo-state__value {
   color: var(--text-primary);
   font-size: var(--font-size-sm);
-  white-space: nowrap;
+  margin-top: 2px;
+}
+
+.repo-state__files {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-height: 20px;
+}
+
+.repo-file-tag {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: var(--font-size-xs);
+  line-height: 1.4;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.02);
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.repo-file-tag--muted {
+  border-style: dashed;
+  color: var(--text-muted);
+}
+
+.repo-file-tag--staged {
+  border-color: rgba(63, 185, 80, 0.6);
+  color: var(--accent-green);
+}
+
+.repo-file-tag--head {
+  border-color: rgba(88, 166, 255, 0.6);
+  color: var(--accent-blue);
 }
 
 .command-coach {
