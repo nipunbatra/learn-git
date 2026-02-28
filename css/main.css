@@ -30,6 +30,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
   padding: var(--spacing-sm) var(--spacing-md);
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
@@ -45,6 +47,7 @@ html, body {
   font-size: var(--font-size-xl);
   color: var(--accent-green);
   letter-spacing: -0.5px;
+  min-width: 0;
 }
 
 .top-bar__brand span {
@@ -56,6 +59,8 @@ html, body {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
+  min-width: 0;
+  margin-left: auto;
 }
 
 .top-bar__level {
@@ -67,6 +72,8 @@ html, body {
 .top-bar__actions {
   display: flex;
   gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .btn {
@@ -105,7 +112,7 @@ html, body {
 /* Teacher mode: simplify UI for live teaching focus */
 body.teacher-mode .main-content {
   grid-template-columns: 280px 1fr;
-  grid-template-rows: 1fr 220px;
+  grid-template-rows: 1fr 210px;
 }
 
 body.teacher-mode #learning-path,
@@ -127,7 +134,7 @@ body.teacher-mode .level-panel__description {
 .main-content {
   display: grid;
   grid-template-columns: 320px 1fr;
-  grid-template-rows: 1fr 260px;
+  grid-template-rows: 1fr minmax(250px, 40vh);
   overflow: hidden;
   min-height: 0;
 }
@@ -137,6 +144,8 @@ body.teacher-mode .level-panel__description {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  min-height: 0;
 }
 
 .panel--level {
@@ -180,6 +189,15 @@ body.teacher-mode .level-panel__description {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .top-bar__brand span {
+    display: none;
+  }
+
+  .top-bar__info {
+    width: 100%;
+    justify-content: space-between;
+  }
+
   .main-content {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr 200px;

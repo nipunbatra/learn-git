@@ -22,6 +22,7 @@
   border-radius: var(--radius-md);
   padding: 6px 10px;
   min-width: 0;
+  min-height: 64px;
 }
 
 .repo-state__label {
@@ -42,6 +43,8 @@
   flex-wrap: wrap;
   gap: 4px;
   min-height: 20px;
+  max-height: 48px;
+  overflow-y: auto;
 }
 
 .repo-file-tag {
@@ -80,6 +83,10 @@ body.teacher-mode .repo-state {
 
 body.teacher-mode .repo-state__files {
   display: none;
+}
+
+body.teacher-mode .terminal__output {
+  padding-top: 6px;
 }
 
 .command-coach {
